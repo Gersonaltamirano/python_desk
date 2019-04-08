@@ -16,6 +16,7 @@ class Contact:
         #Crear una etiqueta y un campo de input
         Label(frame, text = 'Nombre: ').grid(row = 1, column = 0)
         self.nombre = Entry(frame)
+        self.nombre.focus()
         self.nombre.grid(row = 1, column = 1)
 
         #Crear una etiqueta y un campo de input
@@ -31,7 +32,7 @@ class Contact:
         #Boton que almacenará los datos de los input
         ttk.Button(frame, text = 'Guardad contacto').grid(row = 4, columnspan = 2, sticky = W + E )
 
-        
+
 
 if __name__ == '__main__':
     window = Tk()
