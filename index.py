@@ -28,6 +28,11 @@ class Contact:
         self.email = Entry(frame)
         self.email.grid(row = 3, column = 1)
 
+        #Boton que almacenará los datos de los input
+        ttk.Button(frame, text = 'Guardad contacto').grid(row = 4, columnspan = 2, sticky = W + E )
+
+        
+
 if __name__ == '__main__':
     window = Tk()
     app = Contact(window)
