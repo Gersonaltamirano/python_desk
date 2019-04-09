@@ -11,7 +11,7 @@ class Contact:
 
         #Crear un contenedor del formulario
         frame = LabelFrame(self.wind, text = 'Nombre de Contacto')
-        frame.grid(row = 0, column = 0, columnspan = 3, pady = 20)
+        frame.grid(row = 0, column = 0, columnspan = 4, pady = 20)
 
         #Crear una etiqueta y un campo de input
         Label(frame, text = 'Nombre: ').grid(row = 1, column = 0)
@@ -33,8 +33,13 @@ class Contact:
         ttk.Button(frame, text = 'Guardad contacto').grid(row = 4, columnspan = 2, sticky = W + E )
 
         #Agreando tabla donde se mostrarán los registros
-        self.tree = ttk.Treeview(height = 25, columns = 4)
+        self.tree = ttk.Treeview(height = 15 )
+        self.tree['columns']=('#1', '#2','#3')
         self.tree.grid(row = 6, column = 0, columnspan = 4)
+        self.tree.heading('#0', text = 'Indice', anchor = CENTER)
+        self.tree.heading('#1', text = 'Nombre', anchor = CENTER)
+        self.tree.heading('#2', text = 'Telefono', anchor = CENTER)
+        self.tree.heading('#3', text = 'Email', anchor = CENTER)
 
 
 if __name__ == '__main__':
