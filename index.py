@@ -32,6 +32,9 @@ class Contact:
         #Boton que almacenará los datos de los input
         ttk.Button(frame, text = 'Guardad contacto').grid(row = 4, columnspan = 2, sticky = W + E )
 
+        #Agreando tabla donde se mostrarán los registros
+        self.tree = ttk.Treeview(height = 25, columns = 4)
+        self.tree.grid(row = 6, column = 0, columnspan = 4)
 
 
 if __name__ == '__main__':
