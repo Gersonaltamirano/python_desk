@@ -5,6 +5,8 @@ import sqlite3
 
 class Contact:
 
+    db_name = 'contactos.db'
+
     def __init__(self, window):
         self.wind = window
         self.wind.title('Listado de Contactos - By Ing. Gerson Altamirano')
@@ -41,6 +43,23 @@ class Contact:
         self.tree.heading('#2', text = 'Telefono', anchor = CENTER)
         self.tree.heading('#3', text = 'Email', anchor = CENTER)
 
+    def run_query(self, query, parameters = ()):
+        with sqlite3.connect(self.db_name) as conn:
+            cursor = conn.cursor()
+            result = cursor.execute(query, parameters)
+            conn.commit()
+        return result
+
+    def get_contactos(self):
+
+        records = self.tree.get_children()
+        for element in records:
+            self.tree.delete(element)
+
+        query = 'SELECT * FROM contactos ORDER BY nombre DESC'
+        db_rows = self.run_query(query)
+        for row in db_rows:
+            self.tree.insert('', 0, text = row[1], values = row[2])
 
 if __name__ == '__main__':
     window = Tk()
