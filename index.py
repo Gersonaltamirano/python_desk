@@ -1,67 +1,72 @@
 from tkinter import ttk
 from tkinter import *
 
-import sqlite3
-
-class Contact:
-
-    db_name = 'contactos.db'
-
+class Desk:
     def __init__(self, window):
+        # Initializations
+        
+        #ancho
+        ancho = 800
+        
+        #alto
+        alto = 600
+        
+        # asignamos la ventana a una variable de la clase llamada wind
         self.wind = window
-        self.wind.title('Listado de Contactos - By Ing. Gerson Altamirano')
 
-        #Crear un contenedor del formulario
-        frame = LabelFrame(self.wind, text = 'Nombre de Contacto')
-        frame.grid(row = 0, column = 0, columnspan = 4, pady = 20)
+        #le asignamos el ancho y el alto a la ventana con la propiedad geometry
+        self.wind.geometry(str(ancho)+'x'+str(alto))
 
-        #Crear una etiqueta y un campo de input
-        Label(frame, text = 'Nombre: ').grid(row = 1, column = 0)
-        self.nombre = Entry(frame)
-        self.nombre.focus()
-        self.nombre.grid(row = 1, column = 1)
+        #centramos el contenido 
+        self.wind.columnconfigure(0, weight=1)
+        
+        #le damos un titulo a la ventana
+        self.wind.title('Aplicación con interface gráfica en Python - By Ing. Gerson Altamirano')
+        
+        # creamos un contenedor
+        frame = LabelFrame(self.wind, text = 'Sumar 2 valores')
+        frame.grid(row = 0, column = 0, columnspan = 3, pady = 20)
+        
+        # creamos un etiqueta
+        Label(frame, text = 'primer numero: ').grid(row = 1, column = 0)
+        
+        #creamos un input donde ingresar valores
+        self.var1 = Entry(frame)
+        self.var1.focus()
+        self.var1.grid(row = 1, column = 1)
+        
+        # igual que arriba una etiqueta y un campo input para ingresar valores
+        Label(frame, text = 'segundo numero: ').grid(row = 2, column = 0)
+        self.var2 = Entry(frame)
+        self.var2.grid(row = 2, column = 1)
+        
+        #Creamos un boton para ejecutar la suma
+        Button(frame, text = 'Sumar', command = self.sumar).grid(row = 3, columnspan = 2, sticky = W + E)
 
-        #Crear una etiqueta y un campo de input
-        Label(frame, text = 'Telefono: ').grid(row = 2, column = 0)
-        self.telefono = Entry(frame)
-        self.telefono.grid(row = 2, column = 1)
+        #designamos un área para mensajes
+        self.message = Label(text = '', fg = 'red')
+        self.message.grid(row = 3, column = 0, columnspan = 2, sticky = W + E)
+        
+    # creamos una función para validar que los campos no esten en blanco
+    def validation(self):
+        return len(self.var1.get()) != 0 and len(self.var2.get()) != 0
+    
+    # esta es la función que ejecuta la suma
+    def sumar(self):
+        if self.validation():
+            resultado = float( self.var1.get() ) + float( self.var2.get() )
+            self.message['text'] = 'La suma de las 2 variables es: {}'.format(resultado)
+        else:
+            self.message['text'] = 'los campos son requeridos'
 
-        #Crear una etiqueta y un campo de input
-        Label(frame, text = 'Correo: ').grid(row = 3, column = 0)
-        self.email = Entry(frame)
-        self.email.grid(row = 3, column = 1)
-
-        #Boton que almacenará los datos de los input
-        ttk.Button(frame, text = 'Guardad contacto').grid(row = 4, columnspan = 2, sticky = W + E )
-
-        #Agreando tabla donde se mostrarán los registros
-        self.tree = ttk.Treeview(height = 15 )
-        self.tree['columns']=('#1', '#2','#3')
-        self.tree.grid(row = 6, column = 0, columnspan = 4)
-        self.tree.heading('#0', text = 'Indice', anchor = CENTER)
-        self.tree.heading('#1', text = 'Nombre', anchor = CENTER)
-        self.tree.heading('#2', text = 'Telefono', anchor = CENTER)
-        self.tree.heading('#3', text = 'Email', anchor = CENTER)
-
-    def run_query(self, query, parameters = ()):
-        with sqlite3.connect(self.db_name) as conn:
-            cursor = conn.cursor()
-            result = cursor.execute(query, parameters)
-            conn.commit()
-        return result
-
-    def get_contactos(self):
-
-        records = self.tree.get_children()
-        for element in records:
-            self.tree.delete(element)
-
-        query = 'SELECT * FROM contactos ORDER BY nombre DESC'
-        db_rows = self.run_query(query)
-        for row in db_rows:
-            self.tree.insert('', 0, text = row[1], values = row[2])
-
+#validamos si estamos en la aplicación inicial
 if __name__ == '__main__':
+    
+    #asignamos la propiedad de tkinter a la variable window
     window = Tk()
-    app = Contact(window)
+    
+    #en la variable app guardamos la clase Desk y le enviamos como parametro la ventana 
+    app = Desk(window)
+
+    #ejecutamos un mainloop para que se ejecute la ventana
     window.mainloop()
