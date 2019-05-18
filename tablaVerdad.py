@@ -36,3 +36,5 @@ print('-'*21)
 for x in booleanos:
     for y in booleanos:
         print(x, y, x ^ y, sep = '\t') 
+
+# http://elclubdelautodidacta.es/wp/2012/11/python-los-operadores-logicos-y-sus-tablas-de-verdad/
